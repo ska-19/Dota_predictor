@@ -5,13 +5,13 @@ from aiogram import Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from bot_instance import bot
-from handlers import user_handlers, reg_user_handlers
+from handlers import user_handlers, reg_user_handlers, pick_handlers
 from confige import BotConfig
 
 
 def register_routers(dp: Dispatcher) -> None:
     """Registers routers"""
-    dp.include_routers(user_handlers.router, reg_user_handlers.router)
+    dp.include_routers(user_handlers.router, reg_user_handlers.router, pick_handlers.router)
 
 
 async def main() -> None:
