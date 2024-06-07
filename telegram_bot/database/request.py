@@ -1,4 +1,7 @@
 from database.models import Users
+import joblib
+import pandas as pd
+import xgboost as xgb
 
 
 async def set_user(tg_id:int, user_data: dict):
@@ -21,3 +24,14 @@ async def reg_user(user_data: dict):
     user.surname = user_data['surname']
 
     return user
+
+
+async def get_prediction(req_data: dict):
+    model_file_path = './database/xgboost_model_pipeline.joblib'
+    loaded_model_pipeline = joblib.load(model_file_path)
+    new_data = {}
+    for key, value in req_data.items():
+        new_data[str(int(str(key)[1:])-1)] = value
+    new_data_df = pd.DataFrame([new_data])
+    prediction = loaded_model_pipeline.predict_proba(new_data_df)[:, 1]
+    return prediction

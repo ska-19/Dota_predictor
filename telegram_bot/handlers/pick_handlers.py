@@ -54,6 +54,48 @@ async def cmd_p1(message: Message, state: FSMContext):
     if hero in dota_heroes:
         await state.update_data(p1=hero)
         await message.answer(
+            text="Укажите второго персонажа команды света:\n"
+        )
+        await state.set_state(PickState.p2)
+    else:
+        await message.answer(
+            text="Персонаж не найден, попробуйте еще раз"
+        )
+
+@router.message(PickState.p2)
+async def cmd_p2(message: Message, state: FSMContext):
+    hero = message.text[1:]
+    if hero in dota_heroes:
+        await state.update_data(p2=hero)
+        await message.answer(
+            text="Укажите третьего персонажа команды света:\n"
+        )
+        await state.set_state(PickState.p3)
+    else:
+        await message.answer(
+            text="Персонаж не найден, попробуйте еще раз"
+        )
+
+@router.message(PickState.p3)
+async def cmd_p3(message: Message, state: FSMContext):
+    hero = message.text[1:]
+    if hero in dota_heroes:
+        await state.update_data(p3=hero)
+        await message.answer(
+            text="Укажите четвертого персонажа команды света:\n"
+        )
+        await state.set_state(PickState.p4)
+    else:
+        await message.answer(
+            text="Персонаж не найден, попробуйте еще раз"
+        )
+
+@router.message(PickState.p4)
+async def cmd_p4(message: Message, state: FSMContext):
+    hero = message.text[1:]
+    if hero in dota_heroes:
+        await state.update_data(p4=hero)
+        await message.answer(
             text="Укажите пятого персонажа команды света:\n"
         )
         await state.set_state(PickState.p5)
@@ -70,11 +112,71 @@ async def cmd_p5(message: Message, state: FSMContext):
         await message.answer(
             text="Укажите первого персонажа команды тьмы",
         )
+        await state.set_state(PickState.p6)
+    else:
+        await message.answer(
+            text="Персонаж не найден, попробуйте еще раз"
+        )
+
+@router.message(PickState.p6)
+async def cmd_p6(message: Message, state: FSMContext):
+    hero = message.text[1:]
+    if hero in dota_heroes:
+        await state.update_data(p6=hero)
+        await message.answer(
+            text="Укажите второго персонажа команды тьмы",
+        )
+        await state.set_state(PickState.p7)
+    else:
+        await message.answer(
+            text="Персонаж не найден, попробуйте еще раз"
+        )
+
+
+@router.message(PickState.p7)
+async def cmd_p7(message: Message, state: FSMContext):
+    hero = message.text[1:]
+    if hero in dota_heroes:
+        await state.update_data(p7=hero)
+        await message.answer(
+            text="Укажите третьего персонажа команды тьмы",
+        )
+        await state.set_state(PickState.p8)
+    else:
+        await message.answer(
+            text="Персонаж не найден, попробуйте еще раз"
+        )
+
+@router.message(PickState.p8)
+async def cmd_p8(message: Message, state: FSMContext):
+    hero = message.text[1:]
+    if hero in dota_heroes:
+        await state.update_data(p8=hero)
+        await message.answer(
+            text="Укажите четвертого персонажа команды тьмы",
+        )
+        await state.set_state(PickState.p9)
+    else:
+        await message.answer(
+            text="Персонаж не найден, попробуйте еще раз"
+        )
+
+
+@router.message(PickState.p9)
+async def cmd_p9(message: Message, state: FSMContext):
+    hero = message.text[1:]
+    if hero in dota_heroes:
+        await state.update_data(p9=hero)
+        await message.answer(
+            text="Укажите пятого персонажа команды тьмы",
+        )
         await state.set_state(PickState.p10)
     else:
         await message.answer(
             text="Персонаж не найден, попробуйте еще раз"
         )
+
+
 @router.message(PickState.p10)
 async def cmd_p10(message: Message, state: FSMContext):
     hero = message.text[1:]
@@ -84,10 +186,22 @@ async def cmd_p10(message: Message, state: FSMContext):
             text="Отлично, ожидайте результатов",
         )
         req_data = await state.get_data()
+        prediction = await rq.get_prediction(req_data)
         await state.clear()
         await message.answer(
-            text=f"Вероятность победы команды света: 50%\n\n"
-                 f"{req_data}",
+            text=f"Вероятность победы команды света: {str(prediction * 100)[1:-1]}%\n\n"
+                    f"Персонажи команды света:\n"
+                    f"{req_data['p1']}\n"
+                    f"{req_data['p2']}\n"
+                    f"{req_data['p3']}\n"
+                    f"{req_data['p4']}\n"
+                    f"{req_data['p5']}\n\n"
+                    f"Персонажи команды тьмы:\n"
+                    f"{req_data['p6']}\n"
+                    f"{req_data['p7']}\n"
+                    f"{req_data['p8']}\n"
+                    f"{req_data['p9']}\n"
+                    f"{req_data['p10']}\n"
         )
     else:
         await message.answer(
