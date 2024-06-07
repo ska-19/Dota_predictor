@@ -4,48 +4,22 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 class Base(AsyncAttrs, DeclarativeBase):
     pass
 
-class User:
-    def __init__(self, tg_id: int, username: str = ' '):
-        self.id = tg_id
-        self.username = username
-        self.name = 'name'
-        self.surname = 'username'
-        self.user_login = None
-        self.user_password = None
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "username": self.username,
-            "name": self.name,
-            "surname": self.surname,
-            "user_login": self.user_login,
-            "user_password": self.user_password
-        }
-    def __repr__(self):
-        return f"User_r {self.username}"
+dota_heroes = ['abaddon', 'alchemist', 'ancient_apparition', 'anti_mage', 'arc_warden', 'axe', 'bane', 'batrider',
+               'beastmaster', 'bloodseeker', 'bounty_hunter', 'brewmaster', 'bristleback', 'broodmother',
+               'centaur_warrunner', 'chaos_knight', 'chen', 'clinkz', 'clockwerk', 'crystal_maiden',
+               'dark_seer', 'dark_willow', 'dawnbreaker', 'dazzle', 'death_prophet', 'disruptor', 'doom',
+               'dragon_knight', 'drow_ranger', 'earth_spirit', 'earthshaker', 'elder_titan', 'ember_spirit',
+               'enchantress', 'enigma', 'faceless_void', 'grimstroke', 'gyrocopter', 'hoodwink', 'huskar',
+               'invoker', 'io', 'jakiro', 'juggernaut', 'keeper_of_the_light', 'kunkka', 'legion_commander',
+               'leshrac', 'lich', 'lifestealer', 'lina', 'lion', 'lone_druid', 'luna', 'lycan', 'magnus', 'marci',
+               'mars', 'medusa', 'meepo', 'mirana', 'monkey_king', 'morphling', 'muerta', 'naga_siren',
+               'natures_prophet', 'necrophos', 'night_stalker', 'nyx_assassin', 'ogre_magi', 'omniknight', 'oracle',
+               'outworld_destroyer', 'pangolier', 'phantom_assassin', 'phantom_lancer', 'phoenix', 'primal_beast',
+               'puck', 'pudge', 'pugna', 'queen_of_pain', 'razor', 'riki', 'rubick', 'sand_king', 'shadow_demon',
+               'shadow_fiend', 'shadow_shaman', 'silencer', 'skywrath_mage', 'slardar', 'slark', 'snapfire', 'sniper',
+               'spectre', 'spirit_breaker', 'storm_spirit', 'sven', 'techies', 'templar_assassin', 'terrorblade',
+               'tidehunter', 'timbersaw', 'tinker', 'tiny', 'treant_protector', 'troll_warlord', 'tusk', 'underlord',
+               'undying', 'ursa', 'vengeful_spirit', 'venomancer', 'viper', 'visage', 'void_spirit', 'warlock',
+               'weaver', 'windranger', 'winter_wyvern', 'witch_doctor', 'wraith_king', 'zeus']
 
-    def __str__(self):
-        return f"User_s {self.username}"
-
-    def __eq__(self, other):
-        return self.id == other.id
-
-    def get_login(self):
-        return self.user_login
-
-
-class UsersC:
-    def __init__(self):
-        self.dict = {}
-
-    def add_user(self, user: User):
-        self.dict[user.id] = user
-    def create_user(self, tg_id: int, username: str = ' '):
-        self.dict[tg_id] = User(tg_id, username)
-
-    def get_user(self, tg_id:int):
-        user: User = self.dict[tg_id]
-        return user
-
-Users = UsersC()

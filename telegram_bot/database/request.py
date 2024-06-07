@@ -1,9 +1,9 @@
-from database.models import Users
 import joblib
 import pandas as pd
-import xgboost as xgb
-
 from  handlers.pick_handlers import dota_heroes
+import catboost
+
+
 async def set_user(tg_id:int, user_data: dict):
     Users.create_user(tg_id, user_data['username'])
     user = Users.get_user(tg_id)
@@ -27,7 +27,7 @@ async def reg_user(user_data: dict):
 
 
 async def get_prediction(req_data: dict):
-    model_file_path = './database/xgboost_model_pipeline.joblib'
+    model_file_path = './database/catboost_model_pipeline.joblib'
     encoder_file_path = './database/onehot_encoder.joblib'
     loaded_model_pipeline = joblib.load(model_file_path)
     loaded_encoder = joblib.load(encoder_file_path)

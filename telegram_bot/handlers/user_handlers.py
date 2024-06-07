@@ -3,7 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram import Router, types, F
 from aiogram.types import Message, CallbackQuery
 
-from keyboards.user_keyboards import get_main_ikb, get_reg_ikb
+from keyboards.user_keyboards import get_main_ikb
 from confige import BotConfig
 from database import request as rq
 
@@ -23,15 +23,11 @@ async def cmd_start(message: types.Message, config: BotConfig, state: FSMContext
         "username": message.from_user.username,
         "name": message.from_user.first_name,
         "surname": message.from_user.last_name
+
     }
     await message.answer(
         text=config.welcome_message,
-    )
-    await rq.set_user(user_data['tg_id'],user_data)
-    await message.answer(
-        text='Готово!\n'
-             'Вы можете посмотреть свой профиль по кнопке ниже',
-        reply_markup=get_main_ikb(user_data)
+        reply_markup=get_main_ikb()
     )
     await state.clear()
 
@@ -75,19 +71,3 @@ async def cmd_feedback(message: types.Message):
         text="Для связи с администратором напишите пользователю: @yep_admin"
     )
     await message.delete()
-
-@router.callback_query(F.data == "profile")
-async def cmd_profile(callback: CallbackQuery):
-    user = await rq.get_user(callback.from_user.id)
-    user_data = user.to_dict()
-    if user_data['user_login'] is None:
-        await callback.message.answer(
-            text="🔍 <b>Профиль не найден. Зарегистрируйтесь.</b>",
-            reply_markup=get_reg_ikb()
-        )
-    else:
-        await callback.message.answer(
-            text=f"👤 <b>Профиль пользователя:</b>\n"
-                 f"Логин: {user.user_login}\n",
-            reply_markup=get_main_ikb()
-        )
