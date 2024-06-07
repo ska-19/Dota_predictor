@@ -22,13 +22,12 @@ python3 main.py
 
 ### Dataset
 
-We trained all our models on [this dataset](https://www.kaggle.com/datasets/devinanzelmo/dota-2-matches).
-
+We trained all our models on [this dataset](https://www.kaggle.com/datasets/devinanzelmo/dota-2-matches) and with a custom [dotabuff parser](Parser).
 ### Models
 
 - ~~Logistic Regression~~
 - ~~XGBoost~~
-- **CatBoostClassifier**
+- **CatBoost + hyperparameter tuning with Optuna!**
 
 ### Metrics
 
