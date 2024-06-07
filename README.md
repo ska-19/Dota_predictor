@@ -23,7 +23,6 @@ python3 main.py
 ### Dataset
 
 We trained all our models on [this dataset](https://www.kaggle.com/datasets/devinanzelmo/dota-2-matches).
-And 
 
 ### Models
 
